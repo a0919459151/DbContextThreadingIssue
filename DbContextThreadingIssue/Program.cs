@@ -13,7 +13,9 @@ builder.Services.AddDbContext<BookContext>(options =>
 */
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<BookContext>(options =>
+
+// use factory
+builder.Services.AddDbContextFactory<BookContext>(options =>
     options.UseSqlServer(connectionString));
 
 builder.Services.AddScoped<BookService>();
