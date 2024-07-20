@@ -16,7 +16,7 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<BookContext>(options =>
     options.UseSqlServer(connectionString));
 
-builder.Services.AddScoped<BookSerivce>();
+builder.Services.AddScoped<BookService>();
 
 var app = builder.Build();
 
@@ -34,6 +34,11 @@ void InitDB(WebApplication app)
     using var scope = app.Services.CreateScope();
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<BookContext>();
+
+    // Ensure the database for the context exists.
+    // If it exists, no action is taken.
+    // If it does not exist, the database and all its schema are created.
+    context.Database.EnsureCreated();
 
     // if book no data
     var isBookNoData = !context.Books.Any();
@@ -58,3 +63,4 @@ void InitDB(WebApplication app)
         }
     }
 }
+

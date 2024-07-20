@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DbContextThreadingIssue.Services;
 
-public class BookSerivce
+public class BookService
 {
     private readonly BookContext _context;
 
-    public BookSerivce(BookContext context)
+    public BookService(BookContext context)
     {
         _context = context;
     }
