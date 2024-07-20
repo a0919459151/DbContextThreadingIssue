@@ -1,0 +1,11 @@
+@DbContextThreadingIssue_HostAddress = http://localhost:5007
+
+
+GET {{DbContextThreadingIssue_HostAddress}}/api/book/getBooks
+
+###
+
+
+GET {{DbContextThreadingIssue_HostAddress}}/api/book/getBooksWhenAll
+
+###
