@@ -9,10 +9,14 @@ namespace DbContextThreadingIssue.Controllers;
 public class BookController : Controller
 {
     private readonly BookService _bookService;
+    private readonly IServiceProvider _provider;
 
-    public BookController(BookService bookService)
+    public BookController(
+        BookService bookService,
+        IServiceProvider provider)
     {
         _bookService = bookService;
+        _provider = provider;
     }
 
     // Get books
@@ -64,8 +68,11 @@ public class BookController : Controller
         {
             return Task.Run(async () =>
             {
+                using var scope = _provider.CreateScope();
+                var bookService = scope.ServiceProvider.GetRequiredService<BookService>();
+
                 Console.WriteLine($"Task {bookId} is running on thread {Thread.CurrentThread.ManagedThreadId}");
-                return await _bookService.GetBookById(bookId);
+                return await bookService.GetBookById(bookId);
             });
         }
     }
